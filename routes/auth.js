@@ -11,7 +11,7 @@ const verifyAdmin = require('../middleware/auth');
 
 const Student = require('../models/Student'); // 🔥 ADD THIS
 
-router.post('/register', verifyAdmin, async (req, res) => {
+router.post('/register',  async (req, res) => {
   try {
     const { email, password, role } = req.body;
 
