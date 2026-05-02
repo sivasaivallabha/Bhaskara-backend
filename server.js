@@ -6,15 +6,16 @@ require("dotenv").config();
 const app = express();
 
 const corsOptions = {
-  origin: process.env.CLIENT_URL || '*',
+  origin: process.env.CLIENT_URL || true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  credentials: true
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 // Middleware
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.options('/*', cors(corsOptions));
 app.use(express.json());
 
 // Test route
@@ -71,3 +72,7 @@ const examRoutes = require('./routes/exam');
 app.use('/api/exam', examRoutes); 
 
 app.use('/api/announcement', require('./routes/announcement'));
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
