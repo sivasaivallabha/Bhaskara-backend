@@ -1,28 +1,40 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
 
-const corsOptions = {
-  origin: process.env.CLIENT_URL || true,
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
 
-// Middleware
-app.use(cors(corsOptions));
-app.options('/*', cors(corsOptions));
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json',
+  );
+  next();
+});
+
+
+
 
 // Test route
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-
+app.use((req, res, next) => {
+  console.log('->', req.method, req.originalUrl);
+  next();
+});
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
