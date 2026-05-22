@@ -11,8 +11,16 @@ const studentSchema = new mongoose.Schema({
   // 👤 BASIC
   name: { type: String, default: '' },
   rollNo: { type: String, default: '' },
+  admissionNumber: { type: String, default: '' },
   fatherName: { type: String, default: '' },
+  motherName: { type: String, default: '' },
   fatherPhone: { type: String, default: '' },
+  phoneNumber2: { type: String, default: '' },
+  aadhaarNumber: { type: String, default: '' },
+
+  dateOfBirth: { type: String, default: '' },
+
+  address: { type: String, default: '' },
 
   // 🎓 SCHOOL / COLLEGE
   institutionType: {
